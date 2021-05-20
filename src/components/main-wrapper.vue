@@ -1,27 +1,21 @@
 <template>
   <div class="main-wrapper">
-    <p>{{ title }}</p>
+    <button class="main-wrapper__add-post-btn">Add post</button>
     <posts></posts>
-    <add-post></add-post>
   </div>
 </template>
 
 <script>
 import posts from "./posts";
-import addPost from "./add-post";
+//import addPost from "./add-post";
 
 export default {
   name: "main-wrapper",
   components: {
     posts,
-    addPost,
+    //addPost,
   },
   props: {},
-  data() {
-    return {
-      title: "Main wrapper",
-    };
-  },
   computed: {},
   methods: {},
   watch: {},
@@ -35,5 +29,9 @@ export default {
   flex-direction: column; //под вопросом
   max-width: 950px;
   margin: 0 auto;
+  &__add-post-btn {
+    width: 100px;
+    margin: 0 auto;
+  }
 }
 </style>
