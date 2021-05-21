@@ -1,6 +1,5 @@
 <template>
   <div class="main-wrapper">
-    <button class="main-wrapper__add-post-btn">Add post</button>
     <posts></posts>
   </div>
 </template>
@@ -29,9 +28,5 @@ export default {
   flex-direction: column; //под вопросом
   max-width: 950px;
   margin: 0 auto;
-  &__add-post-btn {
-    width: 100px;
-    margin: 0 auto;
-  }
 }
 </style>
