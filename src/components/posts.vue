@@ -1,8 +1,18 @@
 <template>
   <div class="posts">
-    <button class="posts__add-post-btn" @click="changeState('addNewPost')">
-      Add post
-    </button>
+    <add-post
+      class="posts__add-post"
+      v-if="state === 'addNewPost'"
+      v-model="newPost"
+      @changeState="changeState('default')"
+    ></add-post>
+
+    <div class="posts__menu">
+      <button class="posts__add-post-btn" @click="changeState('addNewPost')">
+        Add post
+      </button>
+    </div>
+
     <h1>Blog</h1>
     <div class="posts__list">
       <posts-item
@@ -13,12 +23,6 @@
         @deletePost="deletePost(index)"
       ></posts-item>
     </div>
-    <add-post
-      class="posts__add-post"
-      v-if="state === 'addNewPost'"
-      v-model="newPost"
-      @changeState="changeState('default')"
-    ></add-post>
   </div>
 </template>
 
@@ -37,7 +41,7 @@ export default {
       state: "default",
       posts: [
         {
-          id: 1,
+          id: Date.now(),
           title: "Title1",
           shortDescription: "Abc",
           fullDescription: "Abcdef",
@@ -53,7 +57,7 @@ export default {
           ],
         },
         {
-          id: 2,
+          id: Date.now() + 1,
           title: "Title2",
           shortDescription: "Abc",
           fullDescription: "Abcdef",
@@ -66,6 +70,7 @@ export default {
         },
       ],
       newPost: {
+        id: Date.now(),
         title: "",
         shortDescription: "",
         fullDescription: "",
@@ -113,6 +118,12 @@ export default {
 
 <style lang="scss">
 .posts {
+  margin: 0 40px;
+  &__menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
   &__list {
     display: flex;
     flex-direction: column;
@@ -124,7 +135,6 @@ export default {
   }
   &__add-post-btn {
     width: 100px;
-    margin: 0 auto;
   }
 }
 </style>

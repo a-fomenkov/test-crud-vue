@@ -1,19 +1,20 @@
 <template>
   <div class="main-wrapper">
-    <posts></posts>
+    <router-view></router-view>
+    <!--<posts></posts>-->
   </div>
 </template>
 
 <script>
-import posts from "./posts";
+//import posts from "./posts";
 //import addPost from "./add-post";
 
 export default {
   name: "main-wrapper",
-  components: {
+  /*components: {
     posts,
     //addPost,
-  },
+  },*/
   props: {},
   computed: {},
   methods: {},
@@ -26,7 +27,7 @@ export default {
   display: flex; //под вопросом
   justify-content: center; //под вопросом
   flex-direction: column; //под вопросом
-  max-width: 950px;
+  width: 950px;
   margin: 0 auto;
 }
 </style>

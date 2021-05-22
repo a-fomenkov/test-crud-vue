@@ -1,17 +1,17 @@
 <template>
   <div class="add-post">
-    <h4>Создание новой записи</h4>
-    <div class="add-post__form">
+    <h3>Создание новой записи</h3>
+    <div class="add-post__form form">
       <input
         type="text"
-        class="add-post__title"
+        class="form__title"
         placeholder="Введите название"
         ref="title"
         :value="new_post.title"
         @input="updateData()"
       />
       <textarea
-        class="add-post__short-description"
+        class="form__short-desc"
         cols="30"
         rows="10"
         placeholder="Введите краткое описание"
@@ -20,7 +20,7 @@
         @input="updateData()"
       ></textarea>
       <textarea
-        class="add-post__long-description"
+        class="form__long-desc"
         cols="30"
         rows="10"
         placeholder="Введите полное описание"
@@ -49,6 +49,7 @@ export default {
   methods: {
     updateData() {
       this.$emit("input", {
+        id: Date.now(),
         title: this.$refs.title.value,
         shortDescription: this.$refs.shortDescription.value,
         fullDescription: this.$refs.fullDescription.value,
@@ -65,4 +66,32 @@ export default {
 </script>
 
 <style lang="scss">
+.add-post {
+  position: fixed;
+  padding: 25px 0;
+  box-shadow: 0 0 10px 7px $hoverColor;
+  width: 870px;
+  height: 500px;
+  background-color: aquamarine;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 15px;
+  }
+  &__publish-btn {
+    margin: 30px 0 0 0;
+  }
+}
+.form {
+  &__title {
+    margin: 7px;
+  }
+  &__short-desc {
+    margin: 7px;
+  }
+  &__long-desc {
+    margin: 7px;
+  }
+}
 </style>
