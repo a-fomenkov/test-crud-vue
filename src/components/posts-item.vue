@@ -6,6 +6,7 @@
 
     <p class="posts-item__short-desc">{{ post_data.shortDescription }}</p>
     <p class="posts-item__comment-count">
+      Комментарии:
       {{ post_data.comments.length }}
     </p>
   </div>
@@ -21,6 +22,19 @@ export default {
         return {};
       },
     },
+  },
+  mounted() {},
+  methods: {
+    /*comments() {
+      if (
+        this.post_data.comments.commentAuthor === "" ||
+        this.post_data.comments.commentText === ""
+      )
+        return "0";
+      else {
+        this.post_data.comments.length;
+      }
+    },*/
   },
 };
 </script>

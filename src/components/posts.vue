@@ -4,7 +4,7 @@
       class="posts__add-post"
       v-if="state === 'addNewPost'"
       v-model="newPost"
-      @changeState="changeState('default')"
+      @changeState="createNewPost('default')"
     ></add-post>
 
     <div class="posts__menu">
@@ -36,10 +36,21 @@ export default {
     postsItem,
     addPost,
   },
+  computed: {
+    posts() {
+      return this.$store.getters.posts;
+    },
+  },
   data() {
     return {
       state: "default",
-      posts: [
+      newPost: {
+        title: "",
+        shortDescription: "",
+        fullDescription: "",
+        comments: null,
+      },
+      /*startedPosts: [
         {
           id: Date.now(),
           title: "Title1",
@@ -68,32 +79,48 @@ export default {
             },
           ],
         },
-      ],
-      newPost: {
+      ],*/
+    };
+  },
+  /*mounted() {
+    if (localStorage.getItem("posts")) {
+      try {
+        this.startedposts = JSON.parse(localStorage.getItem("posts"));
+      } catch (e) {
+        localStorage.removeItem("posts");
+      }
+    }
+
+    let parsed = JSON.stringify(this.startedPosts);
+    localStorage.setItem("posts", parsed);
+  },*/
+  methods: {
+    createNewPost(newState) {
+      this.state = newState;
+      if (
+        !this.newPost.title ||
+        !this.newPost.shortDescription ||
+        !this.newPost.fullDescription
+      )
+        return;
+      const post = {
         id: Date.now(),
-        title: "",
-        shortDescription: "",
-        fullDescription: "",
+        title: this.newPost.title,
+        shortDescription: this.newPost.shortDescription,
+        fullDescription: this.newPost.fullDescription,
         comments: [
           {
             commentAuthor: "",
             commentText: "",
           },
         ],
-      },
-    };
-  },
-  mounted() {
-    if (localStorage.getItem("posts")) {
-      try {
-        this.posts = JSON.parse(localStorage.getItem("posts"));
-      } catch (e) {
-        localStorage.removeItem("posts");
-      }
-    }
-  },
-  methods: {
+      };
+      this.$store.dispatch("createPost", post);
+    },
     changeState(newState) {
+      this.state = newState;
+    },
+    /*changeState(newState) {
       this.state = newState;
       if (
         !this.newPost.title ||
@@ -104,14 +131,16 @@ export default {
       this.posts.push(this.newPost);
       this.newPost = "";
       this.savePost();
-    },
-    deletePost(index) {
+    },*/
+
+    /*deletePost(index) {
       this.posts.splice(index, 1);
+      this.savePost();
     },
     savePost() {
       let parsed = JSON.stringify(this.posts);
       localStorage.setItem("posts", parsed);
-    },
+    },*/
   },
 };
 </script>
