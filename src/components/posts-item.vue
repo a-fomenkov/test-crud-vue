@@ -23,26 +23,15 @@ export default {
       },
     },
   },
-  mounted() {},
-  methods: {
-    /*comments() {
-      if (
-        this.post_data.comments.commentAuthor === "" ||
-        this.post_data.comments.commentText === ""
-      )
-        return "0";
-      else {
-        this.post_data.comments.length;
-      }
-    },*/
-  },
+  methods: {},
 };
 </script>
 
 <style lang="scss">
 .posts-item {
   flex-basis: 100%;
-  box-shadow: 0 0 5px #35495e;
+  border-radius: 5px;
+  box-shadow: 2px 2px 7px 2px #35495e81;
   margin: 15px 0;
   &__title {
     margin: 25px;

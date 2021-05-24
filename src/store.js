@@ -3,37 +3,40 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
-let store = new Vuex.Store({
-	state: {
-		startedPosts: [{
+const startedPosts = JSON.stringify([{
+	id: Date.now(),
+	title: "Title1",
+	shortDescription: "Abc",
+	fullDescription: "Abcdef",
+	comments: [
+		{
 			id: Date.now(),
-			title: "Title1",
-			shortDescription: "Abc",
-			fullDescription: "Abcdef",
-			comments: [
-				{
-					commentAuthor: "Ivan",
-					commentText: "Nice story",
-				},
-				{
-					commentAuthor: "Oleg",
-					commentText: "norm",
-				},
-			],
+			author: "Ivan",
+			text: "Nice story",
 		},
 		{
 			id: Date.now() + 1,
-			title: "Title2",
-			shortDescription: "Abc",
-			fullDescription: "Abcdef",
-			comments: [
-				{
-					commentAuthor: "Ivan",
-					commentText: "Nice story",
-				},
-			],
-		}],
-		posts: JSON.parse(localStorage.getItem('posts') || '[]')
+			author: "Oleg",
+			text: "norm",
+		},
+	],
+},
+{
+	id: Date.now() + 1,
+	title: "Title2",
+	shortDescription: "Abc",
+	fullDescription: "Abcdef",
+	comments: [
+		{
+			id: Date.now() + 2,
+			author: "Ivan",
+			text: "Nice story",
+		},
+	],
+}])
+let store = new Vuex.Store({
+	state: {
+		posts: JSON.parse(localStorage.getItem('posts') || startedPosts)
 	},
 	mutations: {
 		createPost(state, post) {
@@ -56,18 +59,25 @@ let store = new Vuex.Store({
 			const idx = state.posts.findIndex(post => post.id === id)
 			state.posts.splice(idx, 1)
 			localStorage.setItem('posts', JSON.stringify(state.posts))
-		}
-	},
-	actions: {
-		createPost({ commit }, post) {
-			commit('createPost', post)
 		},
-		changePost({ commit }, post) {
-			commit('changePost', post)
+		addComment(state, { id, comments }) {
+			const posts = state.posts.concat()
+
+			const idx = posts.findIndex(post => post.id === id)
+			const post = posts[idx]
+
+			posts[idx] = { ...post, comments }
+
+			state.posts = posts
+			localStorage.setItem('posts', JSON.stringify(state.posts))
 		},
-		deletePost({ commit }, id) {
-			commit('deletePost', id)
-		}
+		deleteComment(state, { id, comment }) {
+			const postIdx = state.posts.findIndex(post => post.id === id);
+			const commentIdx = state.posts[postIdx].comments.findIndex(c => c.id === comment.id);
+			state.posts[postIdx].comments.splice(commentIdx, 1);
+
+			localStorage.setItem('posts', JSON.stringify(state.posts))
+		},
 	},
 	getters: {
 		posts: s => s.posts,
@@ -78,7 +88,7 @@ let store = new Vuex.Store({
 					return post.id === id
 				})
 			}
-		}
+		},
 	}
 });
 

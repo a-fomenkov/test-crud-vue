@@ -4,7 +4,7 @@
       class="posts__add-post"
       v-if="state === 'addNewPost'"
       v-model="newPost"
-      @changeState="createNewPost('default')"
+      @publishPost="createNewPost('default')"
     ></add-post>
 
     <div class="posts__menu">
@@ -44,56 +44,17 @@ export default {
   data() {
     return {
       state: "default",
+      /*data: [],
+      busy: false,
+      count: 0,*/
       newPost: {
         title: "",
         shortDescription: "",
         fullDescription: "",
         comments: null,
       },
-      /*startedPosts: [
-        {
-          id: Date.now(),
-          title: "Title1",
-          shortDescription: "Abc",
-          fullDescription: "Abcdef",
-          comments: [
-            {
-              commentAuthor: "Ivan",
-              commentText: "Nice story",
-            },
-            {
-              commentAuthor: "Oleg",
-              commentText: "norm",
-            },
-          ],
-        },
-        {
-          id: Date.now() + 1,
-          title: "Title2",
-          shortDescription: "Abc",
-          fullDescription: "Abcdef",
-          comments: [
-            {
-              commentAuthor: "Ivan",
-              commentText: "Nice story",
-            },
-          ],
-        },
-      ],*/
     };
   },
-  /*mounted() {
-    if (localStorage.getItem("posts")) {
-      try {
-        this.startedposts = JSON.parse(localStorage.getItem("posts"));
-      } catch (e) {
-        localStorage.removeItem("posts");
-      }
-    }
-
-    let parsed = JSON.stringify(this.startedPosts);
-    localStorage.setItem("posts", parsed);
-  },*/
   methods: {
     createNewPost(newState) {
       this.state = newState;
@@ -108,18 +69,23 @@ export default {
         title: this.newPost.title,
         shortDescription: this.newPost.shortDescription,
         fullDescription: this.newPost.fullDescription,
-        comments: [
-          {
-            commentAuthor: "",
-            commentText: "",
-          },
-        ],
+        comments: [],
       };
-      this.$store.dispatch("createPost", post);
+      this.$store.commit("createPost", post);
     },
     changeState(newState) {
       this.state = newState;
     },
+    /*loadMore() {
+      this.busy = true;
+
+      setTimeout(() => {
+        for (var i = 0, j = 10; i < j; i++) {
+          this.data.push({ name: this.count++ });
+        }
+        this.busy = false;
+      }, 1000);
+    },*/
     /*changeState(newState) {
       this.state = newState;
       if (

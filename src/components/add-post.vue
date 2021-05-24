@@ -29,7 +29,7 @@
         @input="updateData()"
       ></textarea>
     </div>
-    <button class="add-post__publish-btn" @click="$emit('changeState')">
+    <button class="add-post__publish-btn" @click="$emit('publishPost')">
       Опубликовать
     </button>
   </div>
@@ -55,8 +55,9 @@ export default {
         fullDescription: this.$refs.fullDescription.value,
         comments: [
           {
-            commentAuthor: "",
-            commentText: "",
+            id: Date.now(),
+            author: "",
+            text: "",
           },
         ],
       });
