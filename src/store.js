@@ -10,7 +10,7 @@ let store = new Vuex.Store({
 	},
 	mutations: {
 		createPost(state, post) {
-			state.posts.push(post)
+			state.posts.unshift(post)
 
 			localStorage.setItem('posts', JSON.stringify(state.posts))
 		},
