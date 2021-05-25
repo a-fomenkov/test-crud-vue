@@ -1,20 +1,28 @@
 <template>
   <div class="posts">
-    <add-post
-      class="posts__add-post"
-      v-if="state === 'addNewPost'"
-      v-model="newPost"
-      @publishPost="createNewPost('default')"
-    ></add-post>
+    <transition name="rotate">
+      <add-post
+        class="posts__add-post"
+        v-if="state === 'addNewPost'"
+        v-model="newPost"
+        @publishPost="createNewPost('default')"
+        @closeAddPost="changeState('default')"
+      ></add-post>
+    </transition>
 
     <div class="posts__menu">
       <button class="posts__add-post-btn" @click="changeState('addNewPost')">
-        Add post
+        Добавить пост
       </button>
     </div>
 
     <h1>Blog</h1>
-    <div class="posts__list">
+    <div
+      class="posts__list"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="10"
+    >
       <posts-item
         class="posts__item"
         v-for="(post, index) in posts"
@@ -38,15 +46,14 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.getters.posts;
+      return this.$store.getters.posts.slice(0, this.loadedPosts);
     },
   },
   data() {
     return {
       state: "default",
-      /*data: [],
+      loadedPosts: 7,
       busy: false,
-      count: 0,*/
       newPost: {
         title: "",
         shortDescription: "",
@@ -76,43 +83,25 @@ export default {
     changeState(newState) {
       this.state = newState;
     },
-    /*loadMore() {
+    loadMore() {
       this.busy = true;
 
       setTimeout(() => {
-        for (var i = 0, j = 10; i < j; i++) {
-          this.data.push({ name: this.count++ });
+        for (var i = 0, j = 5; i < j; i++) {
+          this.posts.push({ post: this.loadedPosts++ });
         }
         this.busy = false;
-      }, 1000);
-    },*/
-    /*changeState(newState) {
-      this.state = newState;
-      if (
-        !this.newPost.title ||
-        !this.newPost.shortDescription ||
-        !this.newPost.fullDescription
-      )
-        return;
-      this.posts.push(this.newPost);
-      this.newPost = "";
-      this.savePost();
-    },*/
-
-    /*deletePost(index) {
-      this.posts.splice(index, 1);
-      this.savePost();
+      }, 300);
     },
-    savePost() {
-      let parsed = JSON.stringify(this.posts);
-      localStorage.setItem("posts", parsed);
-    },*/
   },
 };
 </script>
 
 <style lang="scss">
 .posts {
+  h1 {
+    font-size: 40px;
+  }
   margin: 0 40px;
   &__menu {
     display: flex;
@@ -129,7 +118,31 @@ export default {
     width: 100%;
   }
   &__add-post-btn {
-    width: 100px;
+    background-color: unset;
+    border: 1px solid #35495e6b;
+    box-shadow: 1px 1px 2px #35495e81;
+    width: 150px;
+    height: 40px;
+    font-size: 16px;
+    padding: 5px;
+    &:hover {
+      background-color: #42b883;
+      box-shadow: 1px 1px 3px #42b883c5;
+      border: unset;
+      color: #fff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
   }
+}
+
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all 0.4s ease;
+}
+.rotate-enter,
+.rotate-leave-to {
+  transform: translateY(-50px);
+  opacity: 0;
 }
 </style>
