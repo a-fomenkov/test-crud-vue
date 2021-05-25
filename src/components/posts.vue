@@ -87,9 +87,7 @@ export default {
       this.busy = true;
 
       setTimeout(() => {
-        for (var i = 0, j = 5; i < j; i++) {
-          this.posts.push({ post: this.loadedPosts++ });
-        }
+        this.loadedPosts += 5;
         this.busy = false;
       }, 300);
     },
